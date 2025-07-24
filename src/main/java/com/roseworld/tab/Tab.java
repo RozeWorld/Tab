@@ -1,0 +1,75 @@
+package com.roseworld.tab;
+
+import com.rosekingdom.rosekingdom.Core.NPCs.NPC;
+import com.rosekingdom.rosekingdom.Core.NPCs.NPCHandler;
+import com.rosekingdom.rosekingdom.Core.Utils.Message;
+import com.roseworld.tab.Commands.CommandManager;
+import com.roseworld.tab.Kingdoms.Kingdom;
+import com.roseworld.tab.Kingdoms.KingdomHandler;
+import com.roseworld.tab.Statements.KingdomStatement;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
+
+public final class Tab extends JavaPlugin implements Listener {
+
+    @Override
+    public void onEnable() {
+        new CommandManager(this);
+
+        AFKstatus.check(this);
+        RankHandler.registerBaseRanks();
+        KingdomStatement.loadKingdoms();
+
+        getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new AFKstatus(), this);
+    }
+
+    @Override
+    public void onDisable() {
+        this.getLogger().info("Tab is shutting down...");
+
+        KingdomHandler.saveKingdoms();
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e){
+        Player player = e.getPlayer();
+
+        TabList.display(player);
+
+        TabList.join(player);
+        Kingdom kingdom = KingdomHandler.getKingdom(player);
+        if(kingdom != null && kingdom.getInChat().contains(player.getUniqueId())){
+            player.sendMessage(Component.text("You are currently chatting with " + kingdom.getName() + "'s members.", TextColor.fromHexString("#5ae630")));
+        }
+
+        List<NPC> npcList = NPCHandler.getNPCs();
+        npcList.removeAll(KingdomHandler.getSeparators());
+        for(NPC npc : npcList){
+            npc.spawn();
+        }
+    }
+
+    @EventHandler
+    public void onLeaveEvent(PlayerQuitEvent e){
+        Player player = e.getPlayer();
+        TabList.updatePlayerCount();
+
+        if(KingdomHandler.isInKingdom(player)){
+            Kingdom kingdom = KingdomHandler.getKingdom(player);
+            if(kingdom == null) {
+                Message.Console("Couldn't fetch kingdom!");
+                return;
+            }
+            KingdomHandler.lastOnline(kingdom);
+        }
+    }
+}
