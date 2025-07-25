@@ -2,8 +2,8 @@ package com.roseworld.tab.Kingdoms.Commands;
 
 import com.rosekingdom.rosekingdom.Core.CommandManager.subCommandRK;
 import com.rosekingdom.rosekingdom.Core.Utils.Message;
-import com.rosekingdom.rosekingdom.Tab.Kingdoms.Kingdom;
-import com.rosekingdom.rosekingdom.Tab.Kingdoms.KingdomHandler;
+import com.roseworld.tab.Kingdoms.Kingdom;
+import com.roseworld.tab.Kingdoms.KingdomHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -30,6 +30,14 @@ public class KingdomCommand {
                     }
                     return false;
                 })
+                .then(Commands.argument("kingdom", StringArgumentType.string())
+                        .executes(context -> {
+                            String invite = StringArgumentType.getString(context, "kingdom");
+                            if(KingdomHandler.getInvites().contains(invite)){
+                                KingdomHandler.acceptInvite(invite, player);
+                            }
+                            return Command.SINGLE_SUCCESS;
+                        }))
                 .then(Commands.literal("create")
                         .then(Commands.argument("name", StringArgumentType.string())
                                 .executes(context -> {
@@ -177,7 +185,7 @@ public class KingdomCommand {
                                     return Command.SINGLE_SUCCESS;
                                 }
                                 kingdom.leaveChat(player);
-                                com.rosekingdom.rosekingdom.Tab.Kingdoms.KingdomHandler.removeKingdomChatter(player);
+                                KingdomHandler.removeKingdomChatter(player);
                                 player.sendMessage(Component.text("Switched to the general chat!", TextColor.fromHexString("#5ae630")));
                             }else {
                                 player.sendMessage(Message.Warning("You're not in a kingdom!"));

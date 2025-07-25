@@ -1,5 +1,6 @@
 package com.roseworld.tab;
 
+import com.rosekingdom.rosekingdom.Core.Database.Main_Statements.UserStatement;
 import com.rosekingdom.rosekingdom.Core.NPCs.NPC;
 import com.rosekingdom.rosekingdom.Core.NPCs.NPCHandler;
 import com.rosekingdom.rosekingdom.Core.Utils.Message;
@@ -9,6 +10,7 @@ import com.roseworld.tab.Kingdoms.KingdomHandler;
 import com.roseworld.tab.Statements.KingdomStatement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,6 +29,8 @@ public final class Tab extends JavaPlugin implements Listener {
         AFKstatus.check(this);
         RankHandler.registerBaseRanks();
         KingdomStatement.loadKingdoms();
+
+        UserStatement.setRank("96022bb0-c25b-45da-8537-f323edbba03a", Rank.OWNER.name());
 
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new AFKstatus(), this);
