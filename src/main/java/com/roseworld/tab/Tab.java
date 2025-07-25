@@ -11,13 +11,17 @@ import com.roseworld.tab.Statements.KingdomStatement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ServerLinks;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public final class Tab extends JavaPlugin implements Listener {
@@ -34,6 +38,8 @@ public final class Tab extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new AFKstatus(), this);
+
+        ServerLinks();
     }
 
     @Override
@@ -43,7 +49,8 @@ public final class Tab extends JavaPlugin implements Listener {
         KingdomHandler.saveKingdoms();
     }
 
-    @EventHandler
+    @SuppressWarnings({"Experimental", "UnstableApiUsage"})
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e){
         Player player = e.getPlayer();
 
@@ -74,6 +81,18 @@ public final class Tab extends JavaPlugin implements Listener {
                 return;
             }
             KingdomHandler.lastOnline(kingdom);
+        }
+    }
+
+    @SuppressWarnings({"Experimental", "UnstableApiUsage"})
+    private void ServerLinks(){
+        ServerLinks serverLinks = Bukkit.getServerLinks();
+        try {
+            serverLinks.addLink(Component.text("Discord"), new URI("https://discord.gg/WCPcF8zbus"));
+            serverLinks.addLink(ServerLinks.Type.REPORT_BUG, URI.create("https://github.com/RozeWorld/RoseKingdom/issues"));
+            serverLinks.addLink(ServerLinks.Type.FEEDBACK, URI.create("https://github.com/RozeWorld/RoseKingdom/issues"));
+        } catch (URISyntaxException e) {
+            Message.Exception("A link is not working", e);
         }
     }
 }

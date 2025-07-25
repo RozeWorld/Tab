@@ -2,4 +2,13 @@ name: Tab
 version: '1.0.0'
 main: com.roseworld.tab.Tab
 api-version: '1.21.8'
+authors: [ TMG8047KG ]
+description: Gives you an option to save locations
+website: https://github.com/RozeWorld/Tab
+dependencies:
+  server:
+    RoseKingdom:
+      required: true
+      join-classpath: true
+      load: BEFORE
 
