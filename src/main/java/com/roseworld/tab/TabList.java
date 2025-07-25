@@ -4,7 +4,9 @@ import com.rosekingdom.rosekingdom.RoseKingdom;
 import com.roseworld.tab.Kingdoms.Kingdom;
 import com.roseworld.tab.Kingdoms.KingdomHandler;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -38,8 +40,8 @@ public class TabList {
                 if(ranks.getName().contains(rankName)){
                     player.playerListName(Component.text(rank.prefix).append(Component.text(player.getName(), TextColor.fromHexString(color.color))));
                     player.displayName(Component.text(rank.prefix).append(Component.text(player.getName(), TextColor.fromHexString(color.color))));
-                    ranks.addPlayer(player);
                     ranks.prefix(Component.text(rank.prefix));
+                    ranks.addPlayer(player);
                     RankHandler.setPlayerRank(player, ranks);
                     break;
                 }

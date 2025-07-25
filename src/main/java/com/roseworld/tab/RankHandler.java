@@ -55,8 +55,11 @@ public class RankHandler {
         Team team = getBoard().getTeam(base.getName() + "_AFK");
         if(team == null){
             team = board.registerNewTeam(base.getName() + "_AFK");
+            team.prefix(base.prefix());
+            team.suffix(Component.text("\uDB00\uDC03\uEa06"));
         }
         player.playerListName(player.playerListName().append(Component.text("\uDB00\uDC03\uEa06")));
+        player.displayName(player.displayName().append(Component.text("\uDB00\uDC03\uEa06")));
         //delete the sleep ignore
         player.setSleepingIgnored(true);
         team.addPlayer(player);

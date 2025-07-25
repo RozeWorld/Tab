@@ -12,6 +12,7 @@ public class CommandManager {
         manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands commands = event.registrar();
             new AFK().register(commands);
+            new KingdomCommand().register(commands);
         });
     }
 }

@@ -84,6 +84,8 @@ public class KingdomHandler {
         for(Kingdom kingdom : invites.keySet()){
             if(invites.get(kingdom).equals(invite)){
                 kingdom.joinKingdom(player);
+                kingdom.deleteInvite(invite);
+                removeInvite(kingdom, invite);
             }
         }
     }
